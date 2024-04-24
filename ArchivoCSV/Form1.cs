@@ -98,5 +98,41 @@ namespace ArchivoCSV
                 dtvUserData.DataSource = dataSet.Tables[0];
             }
         }
+        private void btnRtf_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Mostrar el cuadro de diálogo para seleccionar un archivo RTF
+                OpenFileDialog openFileDialog = new OpenFileDialog();
+                openFileDialog.Filter = "Archivos RTF|*.rtf";
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    // Leer el contenido del archivo RTF
+                    string contenidoRtf = File.ReadAllText(openFileDialog.FileName);
+
+                    // Mostrar el contenido en el DataGridView
+                    dtvUserData.Rows.Clear();
+                    dtvUserData.Columns.Clear();
+                    dtvUserData.Columns.Add("Contenido", "Contenido");
+                    dtvUserData.Rows.Add(contenidoRtf);
+                }
+                else
+                {
+                    MessageBox.Show("No se selecciono ningun archivo RTF.", "Informacion", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al abrir el archivo RTF, ERROR: {ex.Message}, MessageBoxButtons.OK, MessageBoxIcon.Error");
+            }
         }
+
+        private void btnDelete_Click(object sender, EventArgs e)
+        {
+            // Borra las columnas del DataTable
+            dtvUserData.Columns.Clear();
+
+            dtvUserData.Refresh();
+        }
+    }
 }
